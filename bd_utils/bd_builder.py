@@ -33,16 +33,23 @@ def extract_article_info(file_path: str) -> dict[str, str] | None:
     return None
 
 def extract_text(file_path: str) -> dict[str, str] | None:
-    try:
-        for _, element in ET.iterparse(file_path, events=("start",)):
-            if _local_tag_name(element.tag) == "Texto":
-                info = {"texto": '\n'.join([x.strip() for x in re.findall(r"<p\sclass=\'corpo.+?\'>(.+?)<\/p>", element.text.replace('\n', ' ').replace('<br>', ''))]) if element.text else ""}
-                info["id"] = Path(file_path).stem
-                return info
-    except ET.ParseError:
-        return None
+    # try:
+    #     for _, element in ET.iterparse(file_path, events=("start",)):
+    #         if _local_tag_name(element.tag) == "Texto":
+    #             info = {"texto": '\n'.join([x.strip() for x in re.findall(r"<p\sclass=\'corpo.+\'>(.+?)<\/p>", re.sub(r'<\/p>\s+<p', '</p>\n<p', element.text.replace('\n', ' ').replace('<br>', '')))]) if element.text else ""}
+    #             info["id"] = Path(file_path).stem
+    #             return info
+    # except ET.ParseError:
+    #     return None
 
-    return None
+    # return None
+    
+    content = ET.parse(file_path)
+    content = re.sub(r'<\/p>\s+<p', '</p>\n<p', content.findtext('.//Texto').replace('\n', ' ').replace('<br>', ''))
+    info = {'texto': '\n'.join([t.strip() for t in re.findall(r"<p.*?>(.+?)<\/p>", content)])}
+    info['id'] = Path(file_path).stem
+    
+    return info
 
 
 def build_metadata(xml_glob: str = XML_GLOB, batch_size: int = DEFAULT_BATCH_SIZE) -> pl.DataFrame:
