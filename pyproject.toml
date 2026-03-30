@@ -6,14 +6,17 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "beautifulsoup4>=4.14.3",
-    "databricks-connect>=18.0.0",
     "ipykernel>=7.2.0",
+    "nbformat>=4.2.0",
     "nltk>=3.9.4",
     "numpy>=2.4.3",
     "pandas>=3.0.1",
+    "pip>=26.0.1",
+    "plotly>=6.6.0",
     "polars>=1.39.3",
     "pyarrow>=23.0.1",
     "requests>=2.32.5",
     "scikit-learn>=1.8.0",
     "spacy>=3.8.13",
+    "wordcloud>=1.9.6",
 ]
