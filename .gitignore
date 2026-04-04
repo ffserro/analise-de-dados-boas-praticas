@@ -1,4 +1,4 @@
-documentos/PEM2040.pdf
 .venv
 .DS_Store
 redownload
+corpora/*
