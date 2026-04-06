@@ -3,7 +3,7 @@ name = "analise-de-dados-boas-praticas"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.13,<3.14"
 dependencies = [
     "beautifulsoup4>=4.14.3",
     "dotenv>=0.9.9",
@@ -22,8 +22,21 @@ dependencies = [
     "seaborn>=0.13.2",
     "spacy>=3.8.13",
     "thefuzz>=0.22.1",
-    "torch>=2.11.0",
+    "torch>=2.6.0",
     "transformers>=5.5.0",
     "unidecode>=1.4.0",
     "wordcloud>=1.9.6",
 ]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.2.0",
+]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu124" }
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
