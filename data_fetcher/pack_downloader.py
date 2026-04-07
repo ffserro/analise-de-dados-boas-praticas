@@ -48,19 +48,6 @@ def salvar_link_processado(path: Path, link: str):
 
 
 def extrair_metadados_zip(link: str):
-    """
-    Extrai:
-    - nome lógico do zip
-    - chave de agrupamento
-    - número da parte, se houver
-
-    Suporta:
-    - S01012024.zip
-    - S01012024_parte1.zip
-    - S01012024_parte01de03.zip
-    - S01012024.zip.001
-    - S01012024.zip.part001
-    """
     padroes = [
         # S01012024.zip.part001
         (
@@ -109,10 +96,7 @@ def extrair_metadados_zip(link: str):
 
 
 def agrupar_links_por_zip(links):
-    """
-    Agrupa links que pertencem ao mesmo zip lógico.
-    Se houver múltiplas partes, ordena pela parte.
-    """
+
     grupos = {}
 
     for link in links:
@@ -129,7 +113,6 @@ def agrupar_links_por_zip(links):
             }
         )
 
-    # ordena partes
     for grupo, itens in grupos.items():
         grupos[grupo] = sorted(
             itens,
@@ -155,10 +138,7 @@ def baixar_bytes(session, url):
 
 
 def baixar_zip_ou_partes_em_memoria(session, itens_grupo):
-    """
-    Se houver apenas um arquivo, retorna ele.
-    Se houver múltiplas partes, concatena na ordem.
-    """
+
     if len(itens_grupo) == 1 and itens_grupo[0]["parte"] is None:
         return BytesIO(baixar_bytes(session, itens_grupo[0]["link"]))
 
